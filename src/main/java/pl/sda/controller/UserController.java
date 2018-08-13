@@ -8,6 +8,7 @@ import pl.sda.model.LoginData;
 import pl.sda.model.User;
 import pl.sda.service.UserService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -43,14 +44,14 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity register(@RequestBody User user) {
+    public ResponseEntity register(@RequestBody @Valid User user) {
         userService.save(user);
 
         return ResponseEntity.created(URI.create("http://localhost:8080/user/" + user.getLogin())).build();
     }
 
     @PutMapping("/user")
-    public ResponseEntity update(@RequestBody User user) {
+    public ResponseEntity update(@RequestBody @Valid User user) {
         userService.update(user);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -73,14 +74,13 @@ public class UserController {
 
     @DeleteMapping("/user/{login}")
     public ResponseEntity deleteByLogin(@PathVariable String login) {
-        Optional<User> userOpt = userService.getByLogin(login);
+        userService.remove(login);
 
-        return userOpt.map(ResponseEntity::ok)
-                      .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity login(@RequestBody LoginData loginData) {
+    public ResponseEntity login(@RequestBody @Valid LoginData loginData) {
         Optional<User> loggedUser = userService.login(loginData);
 
         return loggedUser.map(ResponseEntity::ok)
