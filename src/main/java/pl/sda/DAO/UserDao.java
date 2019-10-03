@@ -8,11 +8,11 @@ import javax.persistence.Persistence;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDAO {
+public class UserDao {
     protected EntityManager entityManager;
     private EntityManagerFactory entityManagerFactory;
 
-    public UserDAO() {
+    public UserDao() {
         entityManagerFactory = Persistence.createEntityManagerFactory("entityManager");
     }
 
@@ -31,7 +31,7 @@ public class UserDAO {
     }
 
     public List<User> getAll() {
-        return entityManager.createQuery("FROM User", User.class).getResultList();
+        return entityManager.createQuery("select * FROM User", User.class).getResultList();
 
     }
 

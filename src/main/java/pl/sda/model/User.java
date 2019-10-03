@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-
 public class User {
 
     @Id
@@ -48,6 +47,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 }

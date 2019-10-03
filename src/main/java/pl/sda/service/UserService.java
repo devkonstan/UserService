@@ -1,7 +1,7 @@
 package pl.sda.service;
 
 import org.springframework.stereotype.Service;
-import pl.sda.DAO.UserDAO;
+import pl.sda.DAO.UserDao;
 import pl.sda.model.LoginData;
 import pl.sda.model.User;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private UserDAO userDAO = new UserDAO();
+    private UserDao userDAO = new UserDao();
 
 
     public void save(User user) {
