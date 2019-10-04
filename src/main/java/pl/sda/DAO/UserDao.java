@@ -1,5 +1,6 @@
 package pl.sda.DAO;
 
+import pl.sda.model.LoginData;
 import pl.sda.model.User;
 
 import javax.persistence.EntityManager;
@@ -11,9 +12,9 @@ import java.util.Optional;
 public class UserDao {
     protected EntityManager entityManager;
     private EntityManagerFactory entityManagerFactory;
-
+    // musi pokrywac sie z nazwa w persistence.xml
     public UserDao() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("entityManager");
+        entityManagerFactory = Persistence.createEntityManagerFactory("userManager");
     }
 
     public void openSessionWithTransaction() {
@@ -26,13 +27,9 @@ public class UserDao {
         entityManager.close();
     }
 
-    public void save(User user) {
-        entityManager.merge(user);
-    }
-
     public List<User> getAll() {
-        return entityManager.createQuery("select * FROM User", User.class).getResultList();
-
+//        return entityManager.createQuery("select * FROM User", User.class).getResultList();
+        return entityManager.createQuery("FROM User").getResultList();
     }
 
     public Optional<User> getByLogin(String login) {
@@ -43,8 +40,23 @@ public class UserDao {
         return Optional.ofNullable(user);
     }
 
-    public void delete(User user) {
 
+    public void save(User user) {
+        entityManager.merge(user);
+    }
+
+    public void update(User user) {
+        entityManager.merge(user);
+    }
+
+    public void delete(User user) {
         entityManager.remove(user);
+    }
+
+    public void login(String login, String password) {
+        entityManager.createQuery("SELECT u FROM User u WHERE u.login =:login and u.password =:password", User.class)
+                .setParameter("login", login)
+                .setParameter("password", password)
+                .getSingleResult();
     }
 }

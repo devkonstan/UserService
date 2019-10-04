@@ -80,8 +80,8 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity login(@RequestBody @Valid LoginData loginData) {
-        Optional<User> loggedUser = userService.login(loginData);
+    public ResponseEntity login(@RequestBody @Valid String login, String password) {
+        Optional<User> loggedUser = userService.login(login, password);
 
         return loggedUser.map(ResponseEntity::ok)
                          .orElseGet(() -> ResponseEntity.notFound().build());
